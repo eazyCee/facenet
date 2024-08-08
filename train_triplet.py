@@ -1,12 +1,12 @@
 from keras.models import Sequential
 from keras.layers import Conv2D, ZeroPadding2D, Activation, Input, concatenate
 from keras.models import Model
-from keras.layers.normalization import BatchNormalization
-from keras.layers.pooling import MaxPooling2D, AveragePooling2D
-from keras.layers.merge import Concatenate
-from keras.layers.core import Lambda, Flatten, Dense
+from keras.layers import BatchNormalization
+from keras.layers import MaxPooling2D, AveragePooling2D
+from keras.layers import Concatenate
+from keras.layers import Lambda, Flatten, Dense
 from keras.initializers import glorot_uniform
-from keras.engine.topology import Layer
+from tensorflow.keras.layers import Layer
 from keras import backend as K
 K.set_image_data_format('channels_first')
 import cv2
@@ -75,7 +75,7 @@ bst_model_path = checkpoint_dir + STAMP + '.h5'
 tensorboard = TensorBoard(log_dir=checkpoint_dir + "logs/{}".format(time.time()))
 
 # Model
-tripletModel = Model(input=[A, P, N], output=[enc_A, enc_P, enc_N])
+tripletModel = Model([A, P, N], [enc_A, enc_P, enc_N])
 tripletModel.compile(optimizer = 'adam', loss = triplet_loss)
 
 gen = batch_generator(BATCH_SIZE)

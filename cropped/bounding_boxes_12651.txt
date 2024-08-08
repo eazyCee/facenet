@@ -1,0 +1,4 @@
+cropped/cliff/1.png 77 55 180 170
+cropped/cliff/2.png 440 595 631 826
+cropped/cliff/3.png 1033 899 1644 1639
+cropped/kenrick/1.png 117 110 308 344

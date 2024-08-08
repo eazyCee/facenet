@@ -7,8 +7,8 @@ import cv2
 from numpy import genfromtxt
 from keras.layers import Conv2D, ZeroPadding2D, Activation, Input, concatenate
 from keras.models import Model
-from keras.layers.normalization import BatchNormalization
-from keras.layers.pooling import MaxPooling2D, AveragePooling2D
+from keras.layers import BatchNormalization
+from keras.layers import MaxPooling2D, AveragePooling2D
 import h5py
 import matplotlib.pyplot as plt
 
@@ -189,11 +189,17 @@ def load_dataset():
     return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
 
 def img_to_encoding(image_path, model, path=True):
+    img=[]
     if path == False:
       img1 = image_path
     else:
       img1 = cv2.imread(image_path, 1)
-    img = img1[...,::-1]
+    if img1 is not None:
+        img = img1[...,::-1]
+    else:
+        print(f"Error loading image: {img1}")
+    print(str(len(img)))
+    print("SHAPE: " img.shape)
     img = np.around(np.transpose(img, (2,0,1))/255.0, decimals=12)
     x_train = np.array([img])
     print(x_train.shape)

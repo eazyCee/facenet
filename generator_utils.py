@@ -19,8 +19,11 @@ for key in paths.keys():
     li = []
     for img in os.listdir(paths[key]):
         img1 = cv2.imread(os.path.join(paths[key],img))
-        img2 = img1[...,::-1]
-        li.append(np.around(np.transpose(img2, (2,0,1))/255.0, decimals=12))
+        if img1 is not None:
+            img2 = img1[...,::-1]
+            li.append(np.around(np.transpose(img2, (2,0,1))/255.0, decimals=12))
+        else:
+            print(f"Error loading image: {img}")
     images[key] = np.array(li)
 
 
@@ -32,14 +35,19 @@ def batch_generator(batch_size=16):
     
     while True:
         for i in range(batch_size):
-            positiveFace = faces[np.random.randint(len(faces))]
-            negativeFace = faces[np.random.randint(len(faces))]
+            positiveFace = faces[np.random.randint(1,len(faces))]
+            negativeFace = faces[np.random.randint(1,len(faces))]
             while positiveFace == negativeFace:
-                negativeFace = faces[np.random.randint(len(faces))]
-
-            positives[i] = images[positiveFace][np.random.randint(len(images[positiveFace]))]
-            anchors[i] = images[positiveFace][np.random.randint(len(images[positiveFace]))]
-            negatives[i] = images[negativeFace][np.random.randint(len(images[negativeFace]))]
+                negativeFace = faces[np.random.randint(1,len(faces))]
+            
+            
+            # positives[i] = images[positiveFace][np.random.randint(np.random.randint(1,3), None)]
+            # anchors[i] = images[positiveFace][np.random.randint(np.random.randint(1,3), None)]
+            # negatives[i] = images[negativeFace][np.random.randint(np.random.randint(1,3), None)]
+            
+            positives[i] = images[positiveFace][np.random.randint(len(images[positiveFace]), None)]
+            anchors[i] = images[positiveFace][np.random.randint(len(images[positiveFace]), None)]
+            negatives[i] = images[negativeFace][np.random.randint(len(images[negativeFace]), None)]
         
         x_data = {'anchor': anchors,
                   'anchorPositive': positives,
